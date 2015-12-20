@@ -1,9 +1,7 @@
 package com.hashnot.u.ratelimit;
 
-import com.hashnot.u.ratelimit.IRateLimiter;
-import com.hashnot.u.ratelimit.RateLimit;
-import com.hashnot.u.ratelimit.RateLimiter;
 import org.junit.Assert;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.time.Clock;
@@ -16,7 +14,7 @@ import java.util.Collections;
  */
 public class RateLimiterTest {
 
-    @org.junit.Test
+    @Test
     public void testAcquire() throws Exception {
         Clock clock = Mockito.mock(Clock.class);
         IRateLimiter limiter = new RateLimiter(Collections.singleton(new RateLimit(1, Duration.ofSeconds(1))), clock);
@@ -26,7 +24,7 @@ public class RateLimiterTest {
         limiter.acquire(1);
     }
 
-    @org.junit.Test
+    @Test
     public void testTryAcquire() throws Exception {
         Clock clock = Mockito.mock(Clock.class);
         IRateLimiter limiter = new RateLimiter(Collections.singleton(new RateLimit(1, Duration.ofSeconds(1))), clock);
