@@ -10,13 +10,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.hashnot.u.time.DurationUtil.sleep;
 import static java.time.Duration.ZERO;
 
 /**
  * @author Rafał Krupiński
  */
 public class RateLimiter implements IRateLimiter {
-    public static final int NANO_PER_MILLI = 1_000_000;
     final private Clock clock;
 
     final private Map<RateLimit, RateLimitState> state = new HashMap<>();
@@ -50,7 +50,7 @@ public class RateLimiter implements IRateLimiter {
             }
 
             if (sleep.compareTo(ZERO) > 0)
-                Thread.sleep(sleep.toMillis(), sleep.getNano() % NANO_PER_MILLI);
+                sleep(sleep);
 
             return sleep.plus(Duration.between(now, actual));
         }
