@@ -1,4 +1,4 @@
-package com.hashnot.u.collections;
+package com.hashnot.u.compare;
 
 /**
  * @author Rafał Krupiński

@@ -1,6 +1,6 @@
 package com.hashnot.u.ratelimit;
 
-import com.hashnot.u.collections.Comparables;
+import com.hashnot.u.compare.Comparables;
 
 import java.time.Clock;
 import java.time.Duration;

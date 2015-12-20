@@ -13,7 +13,7 @@
         <module>micro-ratelimit</module>
         <module>micro-async</module>
         <module>micro-async-rx</module>
-        <module>micro-collections</module>
+        <module>micro-compare</module>
         <module>micro-range</module>
         <module>micro-time</module>
     </modules>
