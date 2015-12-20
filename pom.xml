@@ -16,6 +16,7 @@
         <module>micro-compare</module>
         <module>micro-range</module>
         <module>micro-time</module>
+        <module>micro-random</module>
     </modules>
 
     <properties>
