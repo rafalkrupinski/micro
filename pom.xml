@@ -15,6 +15,7 @@
         <module>micro-async-rx</module>
         <module>micro-collections</module>
         <module>micro-range</module>
+        <module>micro-time</module>
     </modules>
 
     <properties>
