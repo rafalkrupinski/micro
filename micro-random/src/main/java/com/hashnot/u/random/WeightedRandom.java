@@ -1,8 +1,6 @@
 package com.hashnot.u.random;
 
-import com.hashnot.u.range.OverlappingRangeComparator;
-import com.hashnot.u.range.Range;
-import com.hashnot.u.range.RangeOfComparables;
+import com.google.common.collect.Range;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +24,7 @@ public class WeightedRandom<T> {
             double weight = wi.getValue();
             if (weight > 0) {
                 Double top = bottom + weight;
-                Range<Double> r = new RangeOfComparables<>(bottom, top, new OverlappingRangeComparator<>());
+                Range<Double> r = Range.closedOpen(bottom, top);
                 if (ranges.containsKey(r)) {
                     T other = ranges.get(r);
                     throw new IllegalArgumentException(String.format("Range %s conflicts with range %s", r, other));
@@ -57,7 +55,7 @@ public class WeightedRandom<T> {
     public T next() {
         double key = rnd.nextDouble();
 
-        Range<Double> range = RangeOfComparables.point(key, new OverlappingRangeComparator<>());
+        Range<Double> range = Range.singleton(key);
         return ranges.get(range);
     }
 }

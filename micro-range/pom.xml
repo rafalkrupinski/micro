@@ -10,4 +10,11 @@
     </parent>
 
     <artifactId>micro-range</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
 </project>
