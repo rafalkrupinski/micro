@@ -49,7 +49,7 @@ public interface CompareOp<T> {
          * Allows parameters to be null
          */
         public boolean ne(T o1, T o2) {
-            return o1 != o2 || o1 == null || cmp.compare(o1, o2) != 0;
+            return !eq(o1, o2);
         }
 
         public boolean lt(T o1, T o2) {
@@ -70,5 +70,9 @@ public interface CompareOp<T> {
         public boolean gte(T o1, T o2) {
             return cmp.compare(o1, o2) >= 0;
         }
+    }
+
+    static <T extends Comparable<T>> CompareOp<T> natural() {
+        return from(Comparator.<T>naturalOrder());
     }
 }
