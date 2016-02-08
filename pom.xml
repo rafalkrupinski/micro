@@ -17,6 +17,7 @@
         <module>micro-range</module>
         <module>micro-time</module>
         <module>micro-random</module>
+        <module>micro-lambda</module>
     </modules>
 
     <properties>
