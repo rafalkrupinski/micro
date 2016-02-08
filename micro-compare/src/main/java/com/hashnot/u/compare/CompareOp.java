@@ -72,7 +72,9 @@ public interface CompareOp<T> {
         }
     }
 
+    CompareOp NATURAL = from((Comparator<?>) Comparator.naturalOrder());
+
     static <T extends Comparable<T>> CompareOp<T> natural() {
-        return from(Comparator.<T>naturalOrder());
+        return NATURAL;
     }
 }
