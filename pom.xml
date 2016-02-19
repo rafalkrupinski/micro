@@ -18,6 +18,7 @@
         <module>micro-time</module>
         <module>micro-random</module>
         <module>micro-lambda</module>
+        <module>micro-jsr310</module>
     </modules>
 
     <properties>
