@@ -2,36 +2,32 @@ package com.hashnot.u.jsr310;
 
 import java.time.*;
 
-import static java.time.ZoneId.systemDefault;
-
 /**
+ * JSR310 date & time conversion utils
  * @author Rafał Krupiński
  */
 public class Dates {
     private Dates() {
     }
 
-    public static LocalDate toLocalDate(Instant instant) {
-        return toLocalDate(instant, systemDefault());
-    }
-
+    /**
+     * Convert {@link Instant} to {@lonk LocalDate} at a given time zone, discarding time information
+     */
     public static LocalDate toLocalDate(Instant instant, ZoneId zone) {
         return ZonedDateTime.ofInstant(instant, zone).toLocalDate();
     }
 
+    /**
+     * Convert {@lonk LocalDateTime} to {@link Instant} with the given time zone.
+     */
     public static Instant toInstant(LocalDateTime time, ZoneId zone) {
         return time.atZone(zone).toInstant();
     }
 
-    public static Instant toInstant(LocalDateTime time) {
-        return toInstant(time, systemDefault());
-    }
-
+    /**
+     * Convert {@link LocalDate} at the beginning of day to {@link Instant} at the given time zone.
+     */
     public static Instant toInstant(LocalDate date, ZoneId zone) {
         return date.atStartOfDay().atZone(zone).toInstant();
-    }
-
-    public static Instant toInstant(LocalDate date) {
-        return toInstant(date, systemDefault());
     }
 }
