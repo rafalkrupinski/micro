@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.function.Function;
 
 public class WeightedRandom<T> {
     private final Random rnd;
@@ -16,9 +17,17 @@ public class WeightedRandom<T> {
     }
 
     public WeightedRandom(Map<T, Double> weightedItems, Random random) {
+        this(weightedItems.entrySet(), Map.Entry::getKey, Map.Entry::getValue, random);
+    }
+
+    public <E> WeightedRandom(Iterable<E> weightedItems, Function<E, T> itemFunc, Function<E, Double> weightFunc) {
+        this(weightedItems, itemFunc, weightFunc, new Random());
+    }
+
+    public <E> WeightedRandom(Iterable<E> weightedItems, Function<E, T> itemFunc, Function<E, Double> weightFunc, Random random) {
         Double bottom = 0d;
 
-        Map<T, Double> normalized = normalize(weightedItems);
+        Map<T, Double> normalized = normalize(weightedItems, weightFunc, itemFunc);
 
         for (Map.Entry<T, Double> wi : normalized.entrySet()) {
             double weight = wi.getValue();
@@ -27,7 +36,7 @@ public class WeightedRandom<T> {
                 Range<Double> r = Range.closedOpen(bottom, top);
                 if (ranges.containsKey(r)) {
                     T other = ranges.get(r);
-                    throw new IllegalArgumentException(String.format("Range %s conflicts with range %s", r, other));
+                    throw new RuntimeException(String.format("Range %s conflicts with range %s", r, other));
                 }
                 ranges.put(r, wi.getKey());
                 bottom = top;
@@ -36,18 +45,19 @@ public class WeightedRandom<T> {
         rnd = random;
     }
 
-    protected Map<T, Double> normalize(Map<T, Double> weightedItems) {
+    protected <E> Map<T, Double> normalize(Iterable<E> weightedItems, Function<E, Double> weightFunc, Function<E, T> elemFunc) {
         Map<T, Double> normalized = new HashMap<>();
 
         double sum = 0d;
 
-        for (Map.Entry<T, Double> e : weightedItems.entrySet()) {
-            Double weight = e.getValue();
+        for (E e : weightedItems) {
+            Double weight = weightFunc.apply(e);
+            assert weight != null;
             sum += weight;
         }
 
-        for (Map.Entry<T, Double> e : weightedItems.entrySet()) {
-            normalized.put(e.getKey(), e.getValue() / sum);
+        for (E e : weightedItems) {
+            normalized.put(elemFunc.apply(e), weightFunc.apply(e) / sum);
         }
         return normalized;
     }
