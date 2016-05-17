@@ -1,4 +1,4 @@
-package com.hashnot.u.range;
+package com.hashnot.u.range.guava;
 
 import com.google.common.collect.BoundType;
 import com.google.common.collect.Range;
