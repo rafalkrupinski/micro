@@ -1,5 +1,8 @@
 package com.hashnot.u.async;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -9,6 +12,8 @@ import java.util.function.BiConsumer;
  * @author Rafał Krupiński
  */
 public class Async {
+    final private static Logger log = LoggerFactory.getLogger(Async.class);
+
     public static <T> CompletableFuture<T> call(Callable<T> call, Executor executor) {
         CompletableFuture<T> future = new CompletableFuture<>();
         call(call, executor, (r, t) -> handleResult(future, r, t));
@@ -27,12 +32,12 @@ public class Async {
         executor.execute(new CallableWrapper<>(call, resultHandler, ___ASYNC_CALL___()));
     }
 
-    static class CallableWrapper<R> implements Runnable {
+    private static class CallableWrapper<R> implements Runnable {
         final BiConsumer<R, Throwable> resultHandler;
         final StackTraceElement[] stackTrace;
         final Callable<R> function;
 
-        public CallableWrapper(Callable<R> function, BiConsumer<R, Throwable> resultHandler, StackTraceElement[] stackTrace) {
+        CallableWrapper(Callable<R> function, BiConsumer<R, Throwable> resultHandler, StackTraceElement[] stackTrace) {
             this.function = function;
             this.resultHandler = resultHandler;
             this.stackTrace = stackTrace;
@@ -44,6 +49,7 @@ public class Async {
                 R result = function.call();
                 resultHandler.accept(result, null);
             } catch (Throwable e) {
+                log.debug("{} {}", e.getClass(), e.getMessage());
                 updateStackTrace(e, stackTrace);
                 resultHandler.accept(null, e);
             }
