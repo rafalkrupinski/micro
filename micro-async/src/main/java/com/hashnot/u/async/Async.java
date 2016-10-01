@@ -1,5 +1,6 @@
 package com.hashnot.u.async;
 
+import ___ASYNC_._CALL_;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,15 +30,17 @@ public class Async {
     }
 
     public static <T> void call(Callable<T> call, Executor executor, BiConsumer<T, Throwable> resultHandler) {
-        executor.execute(new CallableWrapper<>(call, resultHandler, ___ASYNC_CALL___()));
+        executor.execute(new CallableWrapper<>(Thread.currentThread().getName(), call, resultHandler, _CALL_._BORDER___()));
     }
 
     private static class CallableWrapper<R> implements Runnable {
+        final String callerThreadName;
         final BiConsumer<R, Throwable> resultHandler;
         final StackTraceElement[] stackTrace;
         final Callable<R> function;
 
-        CallableWrapper(Callable<R> function, BiConsumer<R, Throwable> resultHandler, StackTraceElement[] stackTrace) {
+        CallableWrapper(String callerThreadName, Callable<R> function, BiConsumer<R, Throwable> resultHandler, StackTraceElement[] stackTrace) {
+            this.callerThreadName = callerThreadName;
             this.function = function;
             this.resultHandler = resultHandler;
             this.stackTrace = stackTrace;
@@ -45,19 +48,17 @@ public class Async {
 
         @Override
         public void run() {
+            log.debug("scheduled by {}", callerThreadName);
             try {
                 R result = function.call();
+                log.debug("done");
                 resultHandler.accept(result, null);
             } catch (Throwable e) {
-                log.debug("{} {}", e.getClass(), e.getMessage());
+                log.debug("{} {}", e.getClass().getName(), e.getMessage());
                 updateStackTrace(e, stackTrace);
                 resultHandler.accept(null, e);
             }
         }
-    }
-
-    protected static StackTraceElement[] ___ASYNC_CALL___() {
-        return new Exception().getStackTrace();
     }
 
     protected static void updateStackTrace(Throwable t, StackTraceElement[] asyncTrace) {
