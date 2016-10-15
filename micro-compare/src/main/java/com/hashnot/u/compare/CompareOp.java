@@ -27,6 +27,10 @@ public interface CompareOp<T> {
      */
     boolean gte(T o1, T o2);
 
+    T max(T o1, T... rest);
+
+    T min(T o1, T... rest);
+
     static <T> CompareOp<T> from(Comparator<T> from) {
         return new ComparatorOperator<>(from);
     }
@@ -69,6 +73,26 @@ public interface CompareOp<T> {
          */
         public boolean gte(T o1, T o2) {
             return cmp.compare(o1, o2) >= 0;
+        }
+
+        @Override
+        public T max(T o1, T... rest) {
+            T result = o1;
+            for (T o : rest) {
+                if (gt(o, result))
+                    result = o;
+            }
+            return result;
+        }
+
+        @Override
+        public T min(T o1, T... rest) {
+            T result = o1;
+            for (T o : rest) {
+                if (lt(o, result))
+                    result = o;
+            }
+            return result;
         }
     }
 

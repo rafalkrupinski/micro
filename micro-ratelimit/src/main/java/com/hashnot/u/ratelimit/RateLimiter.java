@@ -1,6 +1,6 @@
 package com.hashnot.u.ratelimit;
 
-import com.google.common.collect.Ordering;
+import com.hashnot.u.compare.CompareOp;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -17,7 +17,6 @@ import static java.time.Duration.ZERO;
  * @author Rafał Krupiński
  */
 public class RateLimiter implements IRateLimiter {
-    final private static Ordering<Comparable> CMP = Ordering.natural();
     final private Clock clock;
 
     final private Map<RateLimit, RateLimitState> state = new HashMap<>();
@@ -46,7 +45,7 @@ public class RateLimiter implements IRateLimiter {
 
             for (Map.Entry<RateLimit, RateLimitState> e : state.entrySet()) {
                 RateLimitState rateLimitState = e.getValue();
-                sleep = CMP.max(sleep, rateLimitState.waitTimeForPermit(actual, acquire));
+                sleep = CompareOp.<Duration>natural().max(sleep, rateLimitState.waitTimeForPermit(actual, acquire));
                 rateLimitState.add(actual, acquire);
             }
 
@@ -64,7 +63,7 @@ public class RateLimiter implements IRateLimiter {
             Duration sleep = Duration.ofSeconds(Long.MIN_VALUE);
 
             for (Map.Entry<RateLimit, RateLimitState> e : state.entrySet()) {
-                sleep = CMP.max(sleep, e.getValue().waitTimeForPermit(actual, acquire));
+                sleep = CompareOp.<Duration>natural().max(sleep, e.getValue().waitTimeForPermit(actual, acquire));
             }
 
             if (sleep.compareTo(ZERO) > 0)
