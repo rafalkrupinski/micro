@@ -26,7 +26,6 @@
         <module>micro-async</module>
         <module>micro-compare</module>
         <module>micro-range</module>
-        <module>micro-time</module>
         <module>micro-random</module>
         <module>micro-lambda</module>
         <module>micro-jsr310</module>

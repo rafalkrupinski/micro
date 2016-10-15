@@ -1,5 +1,6 @@
-package com.hashnot.u.time;
+package com.hashnot.u.jsr310;
 
+import com.hashnot.u.jsr310.DurationUtil;
 import org.junit.Assert;
 import org.junit.Test;
 

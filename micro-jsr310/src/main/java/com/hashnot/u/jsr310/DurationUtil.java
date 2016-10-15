@@ -1,4 +1,4 @@
-package com.hashnot.u.time;
+package com.hashnot.u.jsr310;
 
 import java.time.Duration;
 
