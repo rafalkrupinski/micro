@@ -58,23 +58,19 @@ public class RateLimiter implements IRateLimiter {
 
     @Override
     public synchronized boolean tryAcquire(int acquire) {
-        synchronized (this) {
-            Instant actual = clock.instant();
-            Duration sleep = Duration.ofSeconds(Long.MIN_VALUE);
+        Instant actual = clock.instant();
+        Duration sleep = Duration.ofSeconds(Long.MIN_VALUE);
 
-            for (Map.Entry<RateLimit, RateLimitState> e : state.entrySet()) {
-                sleep = CompareOp.<Duration>natural().max(sleep, e.getValue().waitTimeForPermit(actual, acquire));
-            }
+        for (Map.Entry<RateLimit, RateLimitState> e : state.entrySet())
+            sleep = CompareOp.<Duration>natural().max(sleep, e.getValue().waitTimeForPermit(actual, acquire));
 
-            if (sleep.compareTo(ZERO) > 0)
-                return false;
+        if (sleep.compareTo(ZERO) > 0)
+            return false;
 
-            for (Map.Entry<RateLimit, RateLimitState> e : state.entrySet()) {
-                e.getValue().add(actual, acquire);
-            }
+        for (Map.Entry<RateLimit, RateLimitState> e : state.entrySet())
+            e.getValue().add(actual, acquire);
 
-            return true;
-        }
+        return true;
     }
 
 }
