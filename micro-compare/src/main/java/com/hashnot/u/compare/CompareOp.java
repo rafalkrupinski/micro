@@ -23,7 +23,7 @@ public interface CompareOp<T> {
     boolean gt(T o1, T o2);
 
     /**
-     * @return o1 >= o2
+     * @return o1 &gt;= o2
      */
     boolean gte(T o1, T o2);
 
@@ -68,9 +68,6 @@ public interface CompareOp<T> {
             return cmp.compare(o1, o2) > 0;
         }
 
-        /**
-         * @return o1 >= o2
-         */
         public boolean gte(T o1, T o2) {
             return cmp.compare(o1, o2) >= 0;
         }

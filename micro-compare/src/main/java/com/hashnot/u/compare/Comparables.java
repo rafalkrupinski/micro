@@ -32,7 +32,7 @@ public class Comparables {
     }
 
     /**
-     * @return o1 >= o2
+     * @return o1 &gt;= o2
      */
     public static <T extends Comparable<T>> boolean gte(T o1, T o2) {
         return o1.compareTo(o2) >= 0;

@@ -7,19 +7,19 @@ import java.time.LocalDateTime;
 import static java.time.ZoneOffset.UTC;
 
 /**
- * JSR310 date & time conversion utils that use the UTC default time zone.
+ * JSR310 date &amp; time conversion utils that use the UTC default time zone.
  * @author Rafał Krupiński
  */
 public class UTCDates {
     /**
-     * Convert {@link Instant} to {@lonk LocalDate} discarding time information, using the UTC zone id.
+     * Convert {@link Instant} to {@link LocalDate} discarding time information, using the UTC zone id.
      */
     public static LocalDate toLocalDate(Instant instant) {
         return Dates.toLocalDate(instant, UTC);
     }
 
     /**
-     * Convert {@lonk LocalDateTime} to {@link Instant} with the UTC zone id.
+     * Convert {@link LocalDateTime} to {@link Instant} with the UTC zone id.
      */
     public static Instant toInstant(LocalDateTime time) {
         return Dates.toInstant(time, UTC);

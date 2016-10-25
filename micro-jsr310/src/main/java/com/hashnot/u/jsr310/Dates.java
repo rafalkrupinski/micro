@@ -3,7 +3,7 @@ package com.hashnot.u.jsr310;
 import java.time.*;
 
 /**
- * JSR310 date & time conversion utils
+ * JSR310 date &amp; time conversion utils
  * @author Rafał Krupiński
  */
 public class Dates {
@@ -11,14 +11,14 @@ public class Dates {
     }
 
     /**
-     * Convert {@link Instant} to {@lonk LocalDate} at a given time zone, discarding time information
+     * Convert {@link Instant} to {@link LocalDate} at a given time zone, discarding time information
      */
     public static LocalDate toLocalDate(Instant instant, ZoneId zone) {
         return ZonedDateTime.ofInstant(instant, zone).toLocalDate();
     }
 
     /**
-     * Convert {@lonk LocalDateTime} to {@link Instant} with the given time zone.
+     * Convert {@link LocalDateTime} to {@link Instant} with the given time zone.
      */
     public static Instant toInstant(LocalDateTime time, ZoneId zone) {
         return time.atZone(zone).toInstant();
