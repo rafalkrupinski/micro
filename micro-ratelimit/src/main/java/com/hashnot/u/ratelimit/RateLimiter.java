@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.hashnot.u.time.DurationUtil.sleep;
+import static com.hashnot.u.jsr310.DurationUtil.sleep;
 import static java.time.Duration.ZERO;
 
 /**
